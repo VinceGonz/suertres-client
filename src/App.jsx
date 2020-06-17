@@ -1,11 +1,13 @@
 import React from "react";
 import "./App.css";
+import { Switch, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
-    <div>
-      <h1>SUERTRES APP</h1>
-    </div>
+    <Switch>
+      <Route path="/" component={Dashboard} exact />
+    </Switch>
   );
 }
 
