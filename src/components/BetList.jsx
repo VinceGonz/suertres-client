@@ -3,7 +3,7 @@ import Layout from "./Layout";
 
 const BetList = () => {
   return (
-    <Layout>
+    <Layout headerText={"Bet List"} currentActive={"Bet"}>
       <table>
         <tr>
           <th>Cell No.</th>

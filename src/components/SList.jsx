@@ -3,7 +3,7 @@ import Layout from "./Layout";
 
 const SList = () => {
   return (
-    <Layout headerText={"STL List"}>
+    <Layout headerText={"STL List"} currentActive={"STL"}>
       <table>
         <tr>
           <th>Numero</th>

@@ -3,11 +3,11 @@ import Navbar from "./Navbar";
 import HeaderText from "./HeaderText";
 import Banner from "./Banner";
 
-const Layout = ({ children, headerText }) => {
+const Layout = ({ children, headerText, currentActive }) => {
   return (
     <div>
       <Banner />
-      <Navbar />
+      <Navbar currentActive={currentActive} />
       <HeaderText headerText={headerText} />
       {children}
     </div>

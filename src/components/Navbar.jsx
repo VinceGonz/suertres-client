@@ -1,36 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const [active, setActive] = useState("Add");
-
+const Navbar = ({ currentActive }) => {
   return (
     <nav>
       <ul>
-        <Link to="/addBet" className="Links">
-          <li
-            className={active === "Add" ? "active-link" : "not-active"}
-            onClick={(e) => setActive("Add")}
-          >
+        <Link to="/addBet" className="text-link">
+          <li className={currentActive === "Add" ? "active-link" : ""}>
             Add Bet
           </li>
         </Link>
-        <Link to="/sList" className="Links">
-          <li
-            className={active === "STL" ? "active-link" : "not-active"}
-            onClick={(e) => setActive("STL")}
-          >
+
+        <Link to="/sList" className="text-link">
+          <li className={currentActive === "STL" ? "active-link" : ""}>
             STL List
           </li>
         </Link>
-        <Link to="/betList" className="Links">
-          <li
-            className={active === "View" ? "active-link" : "not-active"}
-            onClick={(e) => setActive("View")}
-          >
+
+        <Link to="/betList" className="text-link">
+          <li className={currentActive === "Bet" ? "active-link" : ""}>
             Bet List
           </li>
         </Link>
+
         <li>Logout</li>
       </ul>
     </nav>
