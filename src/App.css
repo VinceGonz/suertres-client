@@ -25,6 +25,7 @@ nav ul li {
   font-size: 20px;
   font-family: "Balsamiq Sans", cursive;
   border: 1px black solid;
+  list-style-type: none;
 }
 
 .text-link {
@@ -89,6 +90,21 @@ tr:nth-child(even) {
   border-radius: 8px;
   margin-left: 30px;
   align-self: flex-end;
+  width: 70%;
+}
+
+.textRed {
+  color: red;
+}
+
+/* !ERROR New Bet Box Input Fields */
+.ErrorBetBoxFields {
+  height: 30px;
+  border-radius: 8px;
+  margin-left: 30px;
+  align-self: flex-end;
+  width: 70%;
+  border: 2px solid red;
 }
 
 .form-group {
@@ -102,11 +118,14 @@ tr:nth-child(even) {
   background-color: lightskyblue;
 }
 
+/* !New Bet Box Labels */
+
 .newBetBoxLabels {
   font-size: 20px;
   font-weight: bolder;
 }
 
+/* !New Bet Submit Button */
 .submitBtn {
   padding: 8px;
   width: 100%;
@@ -115,4 +134,25 @@ tr:nth-child(even) {
   border: 2px solid black;
   color: white;
   font-size: 20px;
+  margin-bottom: 30px;
+}
+
+/* !Add New Bet Number Btn */
+
+.addBetBtn {
+  padding: 8px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #023c40;
+  border: 2px solid black;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* !Flash Message */
+.flashMsg {
+  font-weight: bolder;
+  text-align: center;
+  margin-bottom: 20px;
 }
