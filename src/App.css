@@ -2,6 +2,8 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Metal+Mania&family=Staatliches&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+
 * {
   margin: 0px;
   padding: 0px;
@@ -52,9 +54,10 @@ nav {
 
 /* !HeaderText */
 .HeaderText {
-  text-align: center;
+  /* text-align: center; */
   margin-bottom: 5px;
-  font-family: "Metal Mania", cursive;
+  margin-left: 10px;
+  font-family: "Anton", sans-serif;
   font-size: 32px;
 }
 
@@ -64,6 +67,8 @@ table {
   font-size: 12px;
   border-collapse: collapse;
   width: 100%;
+  border: 2px solid;
+  margin-bottom: 10px;
 }
 
 td,
@@ -71,6 +76,7 @@ th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  font-weight: bolder;
 }
 
 tr:nth-child(even) {
@@ -91,6 +97,13 @@ tr:nth-child(even) {
   margin-left: 30px;
   align-self: flex-end;
   width: 70%;
+}
+
+/* !Draw Select Input */
+.drawSelectInput {
+  font-weight: bolder;
+  border: 1px solid black;
+  height: 35px;
 }
 
 .textRed {

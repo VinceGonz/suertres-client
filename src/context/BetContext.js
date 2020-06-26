@@ -1,24 +1,33 @@
 import React,{createContext, useReducer} from 'react';
+import moment from "moment";
 
+
+// ! Reducers
 import betReducer from '../reducers/betReducer'
+
 
 import {types} from '../types'
 
 
+
+
 export const BetContext = createContext({});
+
 
 const BetContextProvider = ({children}) => {
     const initialState = {
         betList: [],
         suertresData: {},
         flashMsg: {msgType: 'success', msgText: ''},
+        selectedDrawTime: "11",
+        selectedDate: new Date()
     }
     
-    const {ADD_BET, SET_FLASH_MSG} = types;
+    const {ADD_BET, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE} = types;
 
     const [state,dispatch] = useReducer(betReducer, initialState);
 
-    const {betList, suertresData, flashMsg} = state;
+    const {betList, suertresData, flashMsg, selectedDrawTime, selectedDate} = state;
 
 
 
@@ -31,7 +40,15 @@ const BetContextProvider = ({children}) => {
         dispatch({type: SET_FLASH_MSG, payload: msgData});
     }
 
-    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg}}>
+    const setSelectedDrawTime = (drawTime) => {
+        dispatch({type: SET_SELECTED_DRAW_TIME, payload: selectedDrawTime});
+    }
+
+    const setSelectDate = (selectedDate) => {
+        dispatch({type: SET_SELECTED_DATE, payload: selectedDate})
+    }
+
+    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectDate}}>
         {children}
     </BetContext.Provider>
 }

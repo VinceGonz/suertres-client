@@ -1,20 +1,34 @@
 import React, { useState, useContext } from "react";
-import Layout from "../components/Layout";
-import { BetContext } from "../context/BetContext";
+import moment from "moment";
+
+// * CUSTOM COMPONENTS
 import IndividualBets from "./IndividualBets";
 import FlashMessage from "../components/FlashMessage";
+import Layout from "../components/Layout";
+import CustomDatePicker from "react-datepicker";
+
+// * CONTEXTS
+import { BetContext } from "../context/BetContext";
 
 const NewBet = () => {
   const [cellNum, setCellNum] = useState(null);
   const [number, setNumber] = useState(null);
   const [amount, setAmount] = useState(null);
-  const [draw, setDraw] = useState(null);
-  const [date, setDate] = useState(null);
+  const [draw, setDraw] = useState("11");
+  const [date, setDate] = useState(moment(new Date()).format("MM-DD-YYYY"));
   const [indivBets, setIndivBets] = useState([]);
   const [newBetErrors, setNewBetErrors] = useState({});
 
   // * CONTEXT IMPORTED
   const { addNewBet, setFlashMsg, flashMsg } = useContext(BetContext);
+
+  // ! Limit lenght of characters in a input field
+  const setLimitLength = (maxLength, value) => {
+    if (value.length > maxLength) {
+      value = value.substring(0, 3);
+    }
+    return value;
+  };
 
   const resetBetData = () => {
     setCellNum("");
@@ -118,7 +132,7 @@ const NewBet = () => {
             Cell No
           </label>
           <input
-            type="text"
+            type="number"
             className={`newBetBoxFields ${
               newBetErrors.cellNum ? "ErrorBetBoxFields" : null
             }`}
@@ -127,17 +141,20 @@ const NewBet = () => {
           />
         </div>
         <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="draw">
+          <label className="newBetBoxLabels" htmlFor="amount">
             Draw
           </label>
-          <input
-            type="text"
-            className={`newBetBoxFields ${
-              newBetErrors.draw ? "ErrorBetBoxFields" : null
-            }`}
+          <select
+            className="newBetBoxFields drawSelectInput"
             value={draw}
             onChange={(e) => setDraw(e.target.value)}
-          />
+          >
+            <option value="11" selected="selected">
+              11AM
+            </option>
+            <option value="4">4PM</option>
+            <option value="9">9PM</option>
+          </select>
         </div>
         <div className="form-group">
           <label className="newBetBoxLabels" htmlFor="date">
@@ -149,7 +166,9 @@ const NewBet = () => {
               newBetErrors.date ? "ErrorBetBoxFields" : null
             }`}
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => {
+              setDate(e.target.value);
+            }}
           />
         </div>
         <hr />
@@ -159,12 +178,14 @@ const NewBet = () => {
             Number
           </label>
           <input
-            type="text"
+            type="number"
             className={`newBetBoxFields ${
               newBetErrors.number ? "ErrorBetBoxFields" : null
             }`}
             value={number}
-            onChange={(e) => setNumber(e.target.value)}
+            onChange={(e) => {
+              setNumber(setLimitLength(3, e.target.value));
+            }}
           />
         </div>
         <div className="form-group">
@@ -172,7 +193,7 @@ const NewBet = () => {
             Amount
           </label>
           <input
-            type="text"
+            type="number"
             className={`newBetBoxFields ${
               newBetErrors.amount ? "ErrorBetBoxFields" : null
             }`}
