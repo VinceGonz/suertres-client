@@ -2,12 +2,18 @@ import React, { useContext } from "react";
 import Layout from "./Layout";
 import { BetContext } from "../context/BetContext";
 import moment from "moment";
+import CustomDatePicker from "./CustomDatePicker";
 
 const SList = () => {
-  const { betList, selectedDrawTime, selectedDate } = useContext(BetContext);
+  const {
+    betList,
+    selectedDrawTime,
+    setSelectedDrawTime,
+    setSelectedDate,
+    selectedDate,
+  } = useContext(BetContext);
 
   let filteredNewBetList = [];
-  let STList = [];
 
   betList.forEach((eachBetz) => {
     if (eachBetz.date === moment(selectedDate).format("MM-DD-YYYY")) {
@@ -18,6 +24,8 @@ const SList = () => {
   // ! FUNCTION TO MERGE DUPLICATE BET NUMBERS
   const mergeDuplicateNumbers = (betsArray) => {
     let numbersList = [];
+    let STList = [];
+
     let newBetList = betsArray.map((val) =>
       val.bets.map((bet) => {
         return {
@@ -81,6 +89,10 @@ const SList = () => {
 
   return (
     <Layout headerText={"STL List"} currentActive={"STL"}>
+      <CustomDatePicker
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
       <table>
         <tr>
           <th>Numero</th>
@@ -88,16 +100,18 @@ const SList = () => {
           <th>Draw</th>
           <th>Date</th>
         </tr>
-        {mergeDuplicateNumbers(filteredNewBetList).map((bet) => {
-          return (
-            <tr>
-              <td>{bet.number}</td>
-              <td>{bet.amount}</td>
-              <td>{`${bet.draw} ${bet.draw === "11" ? "AM" : "PM"}`}</td>
-              <td>{bet.date}</td>
-            </tr>
-          );
-        })}
+        {mergeDuplicateNumbers(filteredNewBetList).length !== 0
+          ? mergeDuplicateNumbers(filteredNewBetList).map((bet) => {
+              return (
+                <tr>
+                  <td>{bet.number}</td>
+                  <td>{bet.amount}</td>
+                  <td>{`${bet.draw} ${bet.draw === "11" ? "AM" : "PM"}`}</td>
+                  <td>{bet.date}</td>
+                </tr>
+              );
+            })
+          : null}
       </table>
       <h2>Total: {totalAmount}</h2>
     </Layout>

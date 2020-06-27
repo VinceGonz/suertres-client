@@ -10,14 +10,14 @@ const BetList = () => {
     selectedDrawTime,
     selectedDate,
     setSelectedDrawTime,
-    setSelectDate,
+    setSelectedDate,
   } = useContext(BetContext);
   let newBetList =
     betList.length !== 0
       ? betList.map((bet) => {
           return bet.bets.map((eachBet) => {
             return {
-              cellNumber: bet.cellNum,
+              cellNumber: bet.cellNuPm,
               draw: bet.draw,
               date: bet.date,
               number: eachBet.number,
@@ -43,7 +43,7 @@ const BetList = () => {
     <Layout headerText={"Bet List"} currentActive={"Bet"}>
       <CustomDatePicker
         selectedDate={selectedDate}
-        setSelectDate={setSelectDate}
+        setSelectedDate={setSelectedDate}
       />
       <table>
         <tr>
@@ -53,17 +53,19 @@ const BetList = () => {
           <th>Draw</th>
           <th>Date</th>
         </tr>
-        {filteredBetList.map((betz) => {
-          return (
-            <tr>
-              <td>{betz.cellNumber}</td>
-              <td>{betz.number}</td>
-              <td>{betz.amount}</td>
-              <td>{`${betz.draw} ${betz.draw === "11" ? "AM" : "PM"}`}</td>
-              <td>{betz.date}</td>
-            </tr>
-          );
-        })}
+        {filteredBetList.length !== 0
+          ? filteredBetList.map((betz) => {
+              return (
+                <tr>
+                  <td>{betz.cellNumber}</td>
+                  <td>{betz.number}</td>
+                  <td>{betz.amount}</td>
+                  <td>{`${betz.draw} ${betz.draw === "11" ? "AM" : "PM"}`}</td>
+                  <td>{betz.date}</td>
+                </tr>
+              );
+            })
+          : null}
       </table>
     </Layout>
   );

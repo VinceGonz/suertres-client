@@ -44,11 +44,11 @@ const BetContextProvider = ({children}) => {
         dispatch({type: SET_SELECTED_DRAW_TIME, payload: selectedDrawTime});
     }
 
-    const setSelectDate = (selectedDate) => {
+    const setSelectedDate = (selectedDate) => {
         dispatch({type: SET_SELECTED_DATE, payload: selectedDate})
     }
 
-    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectDate}}>
+    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate}}>
         {children}
     </BetContext.Provider>
 }
