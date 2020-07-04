@@ -2,9 +2,13 @@ import React from "react";
 
 const FlashMessage = ({ flashMsg: { msgType, msgText } }) => {
   return (
-    <h2 className={`flashMsg ${msgType === "danger" ? "textRed" : null}`}>
+    <h3
+      className={`${
+        msgType === "danger" ? "flashMsgError" : "flashMsgSuccess"
+      }`}
+    >
       {msgText}
-    </h2>
+    </h3>
   );
 };
 

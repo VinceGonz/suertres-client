@@ -1,4 +1,4 @@
-import React,{createContext, useReducer} from 'react';
+import React,{createContext, useReducer, useEffect} from 'react';
 import moment from "moment";
 
 
@@ -19,21 +19,92 @@ const BetContextProvider = ({children}) => {
         betList: [],
         suertresData: {},
         flashMsg: {msgType: 'success', msgText: ''},
-        selectedDrawTime: "11",
-        selectedDate: new Date()
+        selectedDrawTime: "4",
+        selectedDate: new Date(),
+        winningInfo: {number: null, draw: '11', date: moment(new Date()).format("MM-DD-YYYY")}
     }
     
-    const {ADD_BET, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE} = types;
+    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER} = types;
 
-    const [state,dispatch] = useReducer(betReducer, initialState);
+    const [state,dispatch] = useReducer(betReducer, initialState, () => {
+        const localDataStorage = {
+            betList: localStorage.getItem('betList'),
+        }
 
-    const {betList, suertresData, flashMsg, selectedDrawTime, selectedDate} = state;
+        return localDataStorage.betList ? {...initialState, betList: JSON.parse(localDataStorage.betList) || []} : initialState
+    });
+
+    // const [state,dispatch] = useReducer(betReducer, initialState);
+
+    // const [state,dispatch] = useReducer(betReducer, initialState);
+
+    const {betList, suertresData, flashMsg, selectedDrawTime, selectedDate, winningInfo} = state;
+
+
+    useEffect(() => {
+        localStorage.setItem('betList', JSON.stringify(betList))
+    },[betList])
 
 
 
-    const addNewBet = (newBetData) => {
+    const addNewBet = async (newBetData) => {
         dispatch({type: ADD_BET, payload: newBetData});
+        try{
+            // ! for production endpoint
+            // https://suertres-api-v2.herokuapp.com/api/betsRoute/addBet
+            const response = await fetch('http://localhost:5000/api/betsRoute/addBet', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newBetData),
+            });
+        // const result = await response.json();
+        const result = await response.json();
+        console.log(result)
+        }catch(err){
+            console.log(err)
+        }
+    }
 
+    const deleteBetNumber = async (id) => {
+        dispatch({type: DELETE_BET_NUMBER, payload: id});
+        try {
+            const response = await fetch(`http://localhost:5000/api/betsRoute/deleteNumber/${id}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            console.log('test',result);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getAllBets = async () => {
+        dispatch({type: SET_BET_LIST, payload: JSON.parse(localStorage.getItem('betList')) || []})
+        console.log('DISPATCHED')
+        try {
+            // ! for production endpoint
+            // https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets   
+            const response = await fetch(`http://localhost:5000/api/betsRoute/getAllBets`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            const result = await response.json();
+            console.log('BET LISTZZ FROM DB', result.Bets)
+            dispatch({type: SET_BET_LIST, payload: result.Bets})
+            localStorage.setItem(
+                "betList",
+                JSON.stringify(result.Bets)
+              );
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const setFlashMsg = (msgData) => {
@@ -41,14 +112,18 @@ const BetContextProvider = ({children}) => {
     }
 
     const setSelectedDrawTime = (drawTime) => {
-        dispatch({type: SET_SELECTED_DRAW_TIME, payload: selectedDrawTime});
+        dispatch({type: SET_SELECTED_DRAW_TIME, payload: drawTime});
     }
 
     const setSelectedDate = (selectedDate) => {
         dispatch({type: SET_SELECTED_DATE, payload: selectedDate})
     }
 
-    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate}}>
+    const setWinningInfo = (info) => {
+        dispatch({type: SET_WINNING_INFO, payload: info})
+    }
+
+    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate, setWinningInfo,winningInfo, getAllBets, deleteBetNumber}}>
         {children}
     </BetContext.Provider>
 }

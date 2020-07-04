@@ -11,21 +11,28 @@ import CustomDatePicker from "react-datepicker";
 import { BetContext } from "../context/BetContext";
 
 const NewBet = () => {
+  // * CONTEXT IMPORTED
+  const {
+    addNewBet,
+    setFlashMsg,
+    flashMsg,
+    selectedDrawTime,
+    setSelectedDrawTime,
+    betList,
+    getAllBets,
+  } = useContext(BetContext);
   const [cellNum, setCellNum] = useState(null);
   const [number, setNumber] = useState(null);
   const [amount, setAmount] = useState(null);
-  const [draw, setDraw] = useState("11");
+  const [draw, setDraw] = useState(selectedDrawTime);
   const [date, setDate] = useState(moment(new Date()).format("MM-DD-YYYY"));
   const [indivBets, setIndivBets] = useState([]);
   const [newBetErrors, setNewBetErrors] = useState({});
 
-  // * CONTEXT IMPORTED
-  const { addNewBet, setFlashMsg, flashMsg } = useContext(BetContext);
-
   // ! Limit lenght of characters in a input field
   const setLimitLength = (maxLength, value) => {
     if (value.length > maxLength) {
-      value = value.substring(0, 3);
+      value = value.substring(0, maxLength);
     }
     return value;
   };
@@ -33,7 +40,7 @@ const NewBet = () => {
   const resetBetData = () => {
     setCellNum("");
     setDraw("");
-    setDate("");
+    // setDate("");
     setIndivBets([]);
   };
 
@@ -41,6 +48,15 @@ const NewBet = () => {
     setNumber("");
     setAmount("");
     // setIndivBets([{}]);
+  };
+
+  const resetFlashMessage = () => {
+    setTimeout(() => {
+      setFlashMsg({
+        msgType: "",
+        msgText: "",
+      });
+    }, 5000);
   };
 
   // ! Use to validate overall suertres bet fields
@@ -87,6 +103,10 @@ const NewBet = () => {
     if (Object.keys(errors).length === 0) {
       addNewBet(suertresData);
       console.log(suertresData);
+      localStorage.setItem(
+        "betList",
+        JSON.stringify([...betList, suertresData])
+      );
       resetBetData();
       setFlashMsg({
         msgType: "success",
@@ -115,105 +135,119 @@ const NewBet = () => {
         msgType: "success",
         msgText: "Successfully added new number",
       });
+      resetFlashMessage();
     } else {
       setFlashMsg({
         msgType: "danger",
         msgText: "Failed to add new number",
       });
+      resetFlashMessage();
     }
   };
 
   return (
     <Layout currentActive={"Add"} headerText={"New Bet Form"}>
-      <div className="newBetBox">
-        <FlashMessage flashMsg={flashMsg} />
-        <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="cellNum">
-            Cell No
-          </label>
-          <input
-            type="number"
-            className={`newBetBoxFields ${
-              newBetErrors.cellNum ? "ErrorBetBoxFields" : null
-            }`}
-            value={cellNum}
-            onChange={(e) => setCellNum(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="amount">
-            Draw
-          </label>
-          <select
-            className="newBetBoxFields drawSelectInput"
-            value={draw}
-            onChange={(e) => setDraw(e.target.value)}
+      <div className="mainWrapper">
+        <div className="newBetBox">
+          <div className="form">
+            <div className="form-group">
+              <label className="newBetBoxLabels" htmlFor="cellNum">
+                Cell No
+              </label>
+              <input
+                type="number"
+                className={`newBetBoxFields ${
+                  newBetErrors.cellNum ? "ErrorBetBoxFields" : null
+                }`}
+                value={cellNum}
+                onChange={(e) => setCellNum(setLimitLength(10, e.target.value))}
+              />
+            </div>
+            <div className="form-group">
+              <label className="newBetBoxLabels" htmlFor="amount">
+                Draw
+              </label>
+              <select
+                className="newBetBoxFields drawSelectInput"
+                value={selectedDrawTime}
+                onChange={(e) => setSelectedDrawTime(e.target.value)}
+              >
+                <option value="11" selected="selected">
+                  11AM
+                </option>
+                <option value="4">4PM</option>
+                <option value="9">9PM</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="newBetBoxLabels" htmlFor="date">
+                Date
+              </label>
+              <input
+                type="text"
+                className={`newBetBoxFields ${
+                  newBetErrors.date ? "ErrorBetBoxFields" : null
+                }`}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
+            </div>
+            <hr />
+            <br />
+            <div className="form-group">
+              <label className="newBetBoxLabels" htmlFor="number">
+                Number
+              </label>
+              <input
+                type="number"
+                className={`newBetBoxFields ${
+                  newBetErrors.number ? "ErrorBetBoxFields" : null
+                }`}
+                value={number}
+                onChange={(e) => {
+                  setNumber(setLimitLength(3, e.target.value));
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label className="newBetBoxLabels" htmlFor="amount">
+                Amount
+              </label>
+              <input
+                type="number"
+                className={`newBetBoxFields ${
+                  newBetErrors.amount ? "ErrorBetBoxFields" : null
+                }`}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+          </div>
+          <button
+            className="addBetBtn"
+            onClick={() => addNewIndivBet({ number, amount })}
           >
-            <option value="11" selected="selected">
-              11AM
-            </option>
-            <option value="4">4PM</option>
-            <option value="9">9PM</option>
-          </select>
+            Add Number
+          </button>
+          <button
+            className="submitBtn"
+            onClick={() =>
+              onSubmit({
+                cellNum,
+                draw: selectedDrawTime,
+                date,
+                bets: indivBets,
+              })
+            }
+          >
+            Submit
+          </button>
         </div>
-        <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="date">
-            Date
-          </label>
-          <input
-            type="text"
-            className={`newBetBoxFields ${
-              newBetErrors.date ? "ErrorBetBoxFields" : null
-            }`}
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
-          />
+        <div className="betTable">
+          <IndividualBets indivBets={indivBets} />
         </div>
-        <hr />
-        <br />
-        <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="number">
-            Number
-          </label>
-          <input
-            type="number"
-            className={`newBetBoxFields ${
-              newBetErrors.number ? "ErrorBetBoxFields" : null
-            }`}
-            value={number}
-            onChange={(e) => {
-              setNumber(setLimitLength(3, e.target.value));
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label className="newBetBoxLabels" htmlFor="amount">
-            Amount
-          </label>
-          <input
-            type="number"
-            className={`newBetBoxFields ${
-              newBetErrors.amount ? "ErrorBetBoxFields" : null
-            }`}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </div>
-        <button
-          className="addBetBtn"
-          onClick={() => addNewIndivBet({ number, amount })}
-        >
-          Add Number
-        </button>
-        <button
-          className="submitBtn"
-          onClick={() => onSubmit({ cellNum, draw, date, bets: indivBets })}
-        >
-          Submit
-        </button>
-        <IndividualBets indivBets={indivBets} />
       </div>
     </Layout>
   );

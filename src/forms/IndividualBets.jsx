@@ -7,7 +7,7 @@ const IndividualBets = ({ indivBets }) => {
       ? amountArray.reduce((accu, currVal) => accu + currVal)
       : 0;
   return (
-    <div>
+    <div className="individualBets">
       <table>
         <tr>
           <th>Numero</th>
@@ -23,7 +23,7 @@ const IndividualBets = ({ indivBets }) => {
           : null}
       </table>
       <br />
-      <h4>Total: {total}</h4>
+      <h2>Total: {total}</h2>
     </div>
   );
 };

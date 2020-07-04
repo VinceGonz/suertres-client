@@ -7,6 +7,7 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
   const [startDate, setStartDate] = useState(selectedDate);
   return (
     <DatePicker
+      className="datePicker"
       selected={startDate}
       onChange={(date) => {
         setStartDate(date);

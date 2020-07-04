@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import BetList from "./components/BetList";
 import SList from "./components/SList";
 import NewBet from "./forms/NewBet";
+import WinnersList from "./components/WinnersList";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/sList" component={SList} />
       <Route path="/betList" component={BetList} />
       <Route path="/addBet" component={NewBet} />
+      <Route path="/winnersList" component={WinnersList} />
     </Switch>
   );
 }

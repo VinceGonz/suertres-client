@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "./Layout";
 import { BetContext } from "../context/BetContext";
 import moment from "moment";
 import CustomDatePicker from "./CustomDatePicker";
+import CustomTimePicker from "./CustomTimePicker";
 
 const SList = () => {
   const {
@@ -11,12 +12,22 @@ const SList = () => {
     setSelectedDrawTime,
     setSelectedDate,
     selectedDate,
+    getAllBets,
   } = useContext(BetContext);
+
+  useEffect(() => {
+    getAllBets();
+    //eslint-disable-next-line
+  }, []);
 
   let filteredNewBetList = [];
 
   betList.forEach((eachBetz) => {
-    if (eachBetz.date === moment(selectedDate).format("MM-DD-YYYY")) {
+    if (
+      moment(eachBetz.date).format("MM-DD-YYYY").toString() ===
+        moment(selectedDate).format("MM-DD-YYYY").toString() &&
+      eachBetz.draw === selectedDrawTime
+    ) {
       filteredNewBetList = [...filteredNewBetList, eachBetz];
     }
   });
@@ -26,24 +37,28 @@ const SList = () => {
     let numbersList = [];
     let STList = [];
 
-    let newBetList = betsArray.map((val) =>
-      val.bets.map((bet) => {
-        return {
-          cellNum: val.cellNum,
-          draw: val.draw,
-          date: val.date,
-          number: bet.number,
-          amount: bet.amount,
-        };
-      })
-    );
+    // let newBetList = betsArray.map((val) =>
+    //   val.bets.map((bet) => {
+    //     return {
+    //       cellNum: val.cellNum,
+    //       draw: val.draw,
+    //       date: val.date,
+    //       number: bet.number,
+    //       amount: bet.amount,
+    //     };
+    //   })
+    // );
 
-    let bets = newBetList.map((bet) => bet.map((eachBet) => eachBet));
+    // let bets = betsArray.map((bet) => bet.map((eachBet) => eachBet));
 
-    bets.map((e) => {
-      e.forEach((val) => {
-        numbersList = [...numbersList, val];
-      });
+    // betsArray.map((e) => {
+    //   e.forEach((val) => {
+    //     numbersList = [...numbersList, val];
+    //   });
+    // });
+
+    betsArray.map((e) => {
+      numbersList = [...numbersList, e];
     });
 
     // !filter duplicate bet numbers
@@ -72,10 +87,14 @@ const SList = () => {
 
   let arrayOfBetsAmount = [];
 
+  // filteredNewBetList.forEach((bet) => {
+  //   bet.bets.forEach((perBet) => {
+  //     arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(perBet.amount)];
+  //   });
+  // });
+
   filteredNewBetList.forEach((bet) => {
-    bet.bets.forEach((perBet) => {
-      arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(perBet.amount)];
-    });
+    arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(bet.amount)];
   });
 
   console.log("bobo", arrayOfBetsAmount);
@@ -92,6 +111,10 @@ const SList = () => {
       <CustomDatePicker
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+      />
+      <CustomTimePicker
+        selectedDrawTime={selectedDrawTime}
+        setSelectedDrawTime={setSelectedDrawTime}
       />
       <table>
         <tr>
@@ -113,7 +136,7 @@ const SList = () => {
             })
           : null}
       </table>
-      <h2>Total: {totalAmount}</h2>
+      <h2 className="totalBets">Total: {totalAmount}</h2>
     </Layout>
   );
 };
