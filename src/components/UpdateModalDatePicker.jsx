@@ -4,8 +4,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useEffect } from "react";
 
-const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
+const UpdateModalDatePicker = ({
+  selectedDate,
+  setSelectedDate,
+  betToBeUpdated,
+}) => {
   const [startDate, setStartDate] = useState(selectedDate);
+
+  useEffect(() => {
+    setStartDate(selectedDate);
+  }, [selectedDate]);
 
   return (
     <React.Fragment>
@@ -14,7 +22,7 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
         selected={startDate}
         onChange={(date) => {
           setStartDate(date);
-          setSelectedDate(date);
+          setSelectedDate({ ...betToBeUpdated, date: date });
         }}
         dateFormat="MM-dd-yyyy"
         maxDate={new Date()}
@@ -27,4 +35,4 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
   );
 };
 
-export default CustomDatePicker;
+export default UpdateModalDatePicker;

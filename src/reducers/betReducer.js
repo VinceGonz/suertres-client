@@ -1,7 +1,7 @@
 import {types} from '../types'
 
 
-const {ADD_BET, SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE, SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING} = types;
+const {ADD_BET, SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE, SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING, UPDATE_BET} = types;
 
 // const initialState = {
 //     betList: [],
@@ -18,7 +18,7 @@ const betReducer = (state, {type, payload}) => {
         case ADD_BET:
             return {
                 ...state,
-                betList: [...state.betList, payload]
+                betList: [...state.betList, ...payload]
             }
             break;
 
@@ -62,7 +62,19 @@ const betReducer = (state, {type, payload}) => {
         case DELETE_BET_NUMBER:
             return {
                 ...state,
-                betList: state.betList.filter(bet => bet.list_id !== payload)
+                betList: state.betList.filter(bet => bet.bets_id !== payload)
+            }
+            break;
+        
+        case UPDATE_BET:
+            return {
+                ...state, 
+                betList: state.betList.map(bet => {
+                    if(bet.bets_id === payload.bets_id){
+                        bet = {cell_num: payload.cell_num, date: payload.date, draw: payload.draw, number: payload.number, amount: payload.amount}
+                    }
+                    return bet
+                })
             }
             break;
 

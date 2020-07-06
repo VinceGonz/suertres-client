@@ -10,7 +10,9 @@ const DeleteModal = ({
 }) => {
   const { deleteBetNumber, setFlashMsg } = useContext(BetContext);
   return (
-    <div className={`deleteModal-bg ${visible ? "deleteModalVisible" : null}`}>
+    <div
+      className={`deleteModal-wrapper ${visible ? "deleteModalVisible" : null}`}
+    >
       <div className="deleteModal-modal">
         <h3>Are you sure you want to Delete it?</h3>
         <br />

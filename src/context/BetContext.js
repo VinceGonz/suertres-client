@@ -25,7 +25,7 @@ const BetContextProvider = ({children}) => {
         isLoading: false,
     }
     
-    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING} = types;
+    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING,UPDATE_BET} = types;
 
     const [state,dispatch] = useReducer(betReducer, initialState, () => {
         const localDataStorage = {
@@ -84,6 +84,24 @@ const BetContextProvider = ({children}) => {
         }
     }
 
+    const updateBetData = async (bet) => {
+        console.log('MOTHA',bet)
+        dispatch({type: UPDATE_BET, payload: bet});
+        try {
+            const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${bet.bets_id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bet)
+            });
+            const result = await response.json();
+            console.log('test',result);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const getAllBets = async () => {
         dispatch({type: SET_BET_LIST, payload: JSON.parse(localStorage.getItem('betList')) || []})
         console.log('DISPATCHED')
@@ -128,7 +146,7 @@ const BetContextProvider = ({children}) => {
         dispatch({type: SET_WINNING_INFO, payload: info})
     }
 
-    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate, setWinningInfo,winningInfo, getAllBets, deleteBetNumber,setIsLoading}}>
+    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate, setWinningInfo,winningInfo, getAllBets, deleteBetNumber,setIsLoading,updateBetData}}>
         {children}
     </BetContext.Provider>
 }

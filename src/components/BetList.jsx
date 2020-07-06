@@ -6,10 +6,13 @@ import moment from "moment";
 import CustomTimePicker from "./CustomTimePicker";
 import DeleteModal from "./DeleteModal";
 import { useState } from "react";
+import UpdateModal from "./UpdateModal";
 
 const BetList = () => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [betTobeDeleted, setBetTobeDeleted] = useState({});
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [betToBeDeleted, setBetToBeDeleted] = useState({});
+  const [betToBeUpdated, setBetToBeUpdated] = useState({});
   const {
     betList,
     selectedDrawTime,
@@ -44,6 +47,7 @@ const BetList = () => {
   //     : [];
 
   let filteredBetList = [];
+  console.log("POTANG INA MO BOI", betList);
 
   betList.forEach((eachBetz) => {
     if (
@@ -90,18 +94,27 @@ const BetList = () => {
         </tr>
         {filteredBetList.length !== 0
           ? filteredBetList.map((betz) => {
+              let { bets_id, cell_num, number, amount, draw, date } = betz;
               return (
                 <tr>
-                  <td>{betz.cell_num}</td>
-                  <td>{betz.number}</td>
-                  <td>{betz.amount}</td>
-                  <td>{`${betz.draw} ${betz.draw === "11" ? "AM" : "PM"}`}</td>
-                  <td>{betz.date}</td>
+                  <td>{cell_num}</td>
+                  <td>{number}</td>
+                  <td>{amount}</td>
+                  <td>{`${draw} ${draw === "11" ? "AM" : "PM"}`}</td>
+                  <td>{date}</td>
                   <td>
                     <button
                       className="editBtn"
                       onClick={() => {
-                        console.log("Edit");
+                        setUpdateModalVisible(true);
+                        setBetToBeUpdated({
+                          bets_id,
+                          cell_num,
+                          number,
+                          amount,
+                          draw,
+                          date,
+                        });
                       }}
                     >
                       Update
@@ -112,8 +125,8 @@ const BetList = () => {
                       className="deleteBtn"
                       onClick={() => {
                         setDeleteModalVisible(true);
-                        setBetTobeDeleted({
-                          id: betz.list_id,
+                        setBetToBeDeleted({
+                          id: betz.bets_id,
                           number: betz.number,
                         });
                       }}
@@ -129,7 +142,13 @@ const BetList = () => {
       <DeleteModal
         visible={deleteModalVisible}
         setDeleteModalVisible={setDeleteModalVisible}
-        betTobeDeleted={betTobeDeleted}
+        betTobeDeleted={betToBeDeleted}
+      />
+      <UpdateModal
+        visible={updateModalVisible}
+        setUpdateModalVisible={setUpdateModalVisible}
+        betToBeUpdated={betToBeUpdated}
+        setBetToBeUpdated={setBetToBeUpdated}
       />
     </Layout>
   );

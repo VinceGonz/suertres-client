@@ -97,11 +97,28 @@ const NewBet = () => {
   };
 
   const onSubmit = (suertresData) => {
+    // onSubmit({
+    //   cellNum,
+    //   draw: selectedDrawTime,
+    //   date,
+    //   bets: indivBets,
+    // })
     let errors = suertresDataValidator(suertresData);
+    let newList;
     let { cellNum, draw, date, bets } = errors;
     setNewBetErrors({ ...newBetErrors, cellNum, draw, date, bets });
     if (Object.keys(errors).length === 0) {
-      addNewBet(suertresData);
+      newList = indivBets.map((bet) => {
+        return {
+          cellNum: suertresData.cellNum,
+          draw: selectedDrawTime,
+          date: suertresData.date,
+          number: bet.number,
+          amount: bet.amount,
+        };
+      });
+      console.log("baby", newList);
+      addNewBet(newList);
       console.log(suertresData);
       localStorage.setItem(
         "betList",
