@@ -24,8 +24,24 @@ const BetList = () => {
 
   useEffect(() => {
     getAllBets();
+
     //eslint-disable-next-line
   }, []);
+
+  // let newBetList =
+  //   betList.length !== 0
+  // ? betList.map((bet) => {
+  //         return bet.bets.map((eachBet) => {
+  //           return {
+  //             cellNumber: bet.cellNum,
+  //             draw: bet.draw,
+  //             date: bet.date,
+  //             number: eachBet.number,
+  //             amount: eachBet.amount,
+  //           };
+  //         });
+  //       })
+  //     : [];
 
   let filteredBetList = [];
 

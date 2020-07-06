@@ -89,7 +89,7 @@ const NewBet = () => {
       errors.number = "Invalid number";
     }
 
-    if (amount === null || amount < 0 || amount === "") {
+    if (amount === null || amount <= 0 || amount === "") {
       errors.amount = "Invalid Amount";
     }
 

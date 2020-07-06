@@ -27,6 +27,8 @@ const WinnersList = () => {
     //eslint-disable-next-line
   }, []);
 
+  console.log("GAGU BETLIST", betList);
+
   const setLimitLength = (maxLength, value) => {
     if (value.length > maxLength) {
       value = value.substring(0, 3);

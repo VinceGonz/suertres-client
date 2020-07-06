@@ -1,7 +1,7 @@
 import {types} from '../types'
 
 
-const {ADD_BET, SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE, SET_WINNING_INFO, DELETE_BET_NUMBER} = types;
+const {ADD_BET, SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE, SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING} = types;
 
 // const initialState = {
 //     betList: [],
@@ -65,8 +65,16 @@ const betReducer = (state, {type, payload}) => {
                 betList: state.betList.filter(bet => bet.list_id !== payload)
             }
             break;
+
+        case SET_IS_LOADING: 
+            return {
+                ...state,
+                isLoading: payload
+            }
+        break;
+
         
-        default:
+        default :
             return {...state}
     }
 }

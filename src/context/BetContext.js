@@ -21,10 +21,11 @@ const BetContextProvider = ({children}) => {
         flashMsg: {msgType: 'success', msgText: ''},
         selectedDrawTime: "4",
         selectedDate: new Date(),
-        winningInfo: {number: null, draw: '11', date: moment(new Date()).format("MM-DD-YYYY")}
+        winningInfo: {number: null, draw: '11', date: moment(new Date()).format("MM-DD-YYYY")},
+        isLoading: false,
     }
     
-    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER} = types;
+    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING} = types;
 
     const [state,dispatch] = useReducer(betReducer, initialState, () => {
         const localDataStorage = {
@@ -61,7 +62,7 @@ const BetContextProvider = ({children}) => {
             });
         // const result = await response.json();
         const result = await response.json();
-        console.log(result)
+        // console.log(result)
         }catch(err){
             console.log(err)
         }
@@ -107,6 +108,10 @@ const BetContextProvider = ({children}) => {
         }
     }
 
+    const setIsLoading = (bool) => {
+        dispatch({type: SET_IS_LOADING, payload: bool})
+    }
+
     const setFlashMsg = (msgData) => {
         dispatch({type: SET_FLASH_MSG, payload: msgData});
     }
@@ -123,7 +128,7 @@ const BetContextProvider = ({children}) => {
         dispatch({type: SET_WINNING_INFO, payload: info})
     }
 
-    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate, setWinningInfo,winningInfo, getAllBets, deleteBetNumber}}>
+    return <BetContext.Provider value={{ addNewBet, betList, flashMsg, setFlashMsg, selectedDrawTime, selectedDate, setSelectedDrawTime, setSelectedDate, setWinningInfo,winningInfo, getAllBets, deleteBetNumber,setIsLoading}}>
         {children}
     </BetContext.Provider>
 }
