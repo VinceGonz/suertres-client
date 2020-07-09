@@ -120,10 +120,7 @@ const NewBet = () => {
       console.log("baby", newList);
       addNewBet(newList);
       console.log(suertresData);
-      localStorage.setItem(
-        "betList",
-        JSON.stringify([...betList, suertresData])
-      );
+      localStorage.setItem("betList", JSON.stringify([...betList, newList]));
       resetBetData();
       setFlashMsg({
         msgType: "success",

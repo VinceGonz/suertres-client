@@ -19,7 +19,7 @@ const BetContextProvider = ({children}) => {
         betList: [],
         suertresData: {},
         flashMsg: {msgType: 'success', msgText: ''},
-        selectedDrawTime: "4",
+        selectedDrawTime: "11",
         selectedDate: new Date(),
         winningInfo: {number: null, draw: '11', date: moment(new Date()).format("MM-DD-YYYY")},
         isLoading: false,
@@ -62,7 +62,7 @@ const BetContextProvider = ({children}) => {
             });
         // const result = await response.json();
         const result = await response.json();
-        // console.log(result)
+        console.log(result)
         }catch(err){
             console.log(err)
         }
@@ -86,14 +86,17 @@ const BetContextProvider = ({children}) => {
 
     const updateBetData = async (bet) => {
         console.log('MOTHA',bet)
-        dispatch({type: UPDATE_BET, payload: bet});
+        let formatedBet = {...bet, date: moment(bet.date).format("MM-DD-YYYY")}
+        // moment(selectedDate).format("MM-DD-YYYY")
+        // moment(new Date()).format("MM-DD-YYYY")
+        dispatch({type: UPDATE_BET, payload: formatedBet});
         try {
-            const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${bet.bets_id}`,{
+            const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${formatedBet.bets_id}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(bet)
+                body: JSON.stringify(formatedBet)
             });
             const result = await response.json();
             console.log('test',result);
