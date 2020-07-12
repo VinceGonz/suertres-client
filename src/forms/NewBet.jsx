@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import moment from "moment";
+import { uuid } from "uuidv4";
 
 // * CUSTOM COMPONENTS
 import IndividualBets from "./IndividualBets";
@@ -28,6 +29,10 @@ const NewBet = () => {
   const [date, setDate] = useState(moment(new Date()).format("MM-DD-YYYY"));
   const [indivBets, setIndivBets] = useState([]);
   const [newBetErrors, setNewBetErrors] = useState({});
+  const [
+    updateIndividualBetModalVisible,
+    setUpdateIndividualBetModalVisible,
+  ] = useState(false);
 
   // ! Limit lenght of characters in a input field
   const setLimitLength = (maxLength, value) => {
@@ -57,6 +62,15 @@ const NewBet = () => {
         msgText: "",
       });
     }, 5000);
+  };
+
+  const updateIndivBets = (bet) => {
+    indivBets.map((eachBet) => {
+      if (eachBet.id === bet.id) {
+        eachBet = { ...eachBet, number: bet.number, amount: bet.amount };
+      }
+      return eachBet;
+    });
   };
 
   // ! Use to validate overall suertres bet fields
@@ -134,7 +148,7 @@ const NewBet = () => {
   const addNewIndivBet = (indivBet) => {
     let errors = eachBetValidator(indivBet);
     console.log(errors);
-    let { amount, number } = errors;
+    let { id, amount, number } = errors;
 
     setNewBetErrors({ ...newBetErrors, amount, number });
 
@@ -142,7 +156,7 @@ const NewBet = () => {
       // setNewBetErrors({ ...newBetErrors, amount, number });
       setIndivBets([
         ...indivBets,
-        { number: indivBet.number, amount: indivBet.amount },
+        { id: indivBet.id, number: indivBet.number, amount: indivBet.amount },
       ]);
       resetIndivBets();
       setFlashMsg({
@@ -241,7 +255,7 @@ const NewBet = () => {
           </div>
           <button
             className="addBetBtn"
-            onClick={() => addNewIndivBet({ number, amount })}
+            onClick={() => addNewIndivBet({ id: uuid(), number, amount })}
           >
             Add Number
           </button>
@@ -259,8 +273,16 @@ const NewBet = () => {
             Submit
           </button>
         </div>
-        <div className="betTable">
-          <IndividualBets indivBets={indivBets} />
+        <div className="betTable indivBetTable">
+          <IndividualBets
+            indivBets={indivBets}
+            setIndivBets={setIndivBets}
+            visible={updateIndividualBetModalVisible}
+            setUpdateIndividualBetModalVisible={
+              setUpdateIndividualBetModalVisible
+            }
+            updateIndivBets={updateIndivBets}
+          />
         </div>
       </div>
     </Layout>

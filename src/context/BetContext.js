@@ -25,7 +25,7 @@ const BetContextProvider = ({children}) => {
         isLoading: false,
     }
     
-    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING,UPDATE_BET} = types;
+    const {ADD_BET,SET_BET_LIST, SET_FLASH_MSG, SET_SELECTED_DRAW_TIME, SET_SELECTED_DATE,SET_WINNING_INFO, DELETE_BET_NUMBER, SET_IS_LOADING,UPDATE_BET, UPDATE_INDIVIDUAL_BET,DELETE_INDIVIDUAL_BET} = types;
 
     const [state,dispatch] = useReducer(betReducer, initialState, () => {
         const localDataStorage = {
@@ -128,6 +128,8 @@ const BetContextProvider = ({children}) => {
             console.log(error)
         }
     }
+
+    // const deleteIndividualBet = (bet)
 
     const setIsLoading = (bool) => {
         dispatch({type: SET_IS_LOADING, payload: bool})
