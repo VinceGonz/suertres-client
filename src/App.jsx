@@ -6,15 +6,20 @@ import BetList from "./components/BetList";
 import SList from "./components/SList";
 import NewBet from "./forms/NewBet";
 import WinnersList from "./components/WinnersList";
+import LoginPage from "./pages/LoginPage";
+
+import PrivateRoute from "./components/routes/PrivateRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 
 function App() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} exact />
-      <Route path="/sList" component={SList} />
-      <Route path="/betList" component={BetList} />
-      <Route path="/addBet" component={NewBet} />
-      <Route path="/winnersList" component={WinnersList} />
+      <PublicRoute path="/" component={LoginPage} exact />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/sList" component={SList} />
+      <PrivateRoute path="/betList" component={BetList} />
+      <PrivateRoute path="/addBet" component={NewBet} />
+      <PrivateRoute path="/winnersList" component={WinnersList} />
     </Switch>
   );
 }

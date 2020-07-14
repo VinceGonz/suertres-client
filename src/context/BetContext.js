@@ -18,7 +18,7 @@ const BetContextProvider = ({children}) => {
     const initialState = {
         betList: [],
         suertresData: {},
-        flashMsg: {msgType: 'success', msgText: ''},
+        flashMsg: {msgType: '', msgText: ''},
         selectedDrawTime: "11",
         selectedDate: new Date(),
         winningInfo: {number: null, draw: '11', date: moment(new Date()).format("MM-DD-YYYY")},
@@ -53,7 +53,7 @@ const BetContextProvider = ({children}) => {
         try{
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/addBet
-            const response = await fetch('http://localhost:5000/api/betsRoute/addBet', {
+            const response = await fetch('https://suertres-api-v2.herokuapp.com/api/betsRoute/addBet', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const BetContextProvider = ({children}) => {
     const deleteBetNumber = async (id) => {
         dispatch({type: DELETE_BET_NUMBER, payload: id});
         try {
-            const response = await fetch(`http://localhost:5000/api/betsRoute/deleteNumber/${id}`,{
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/betsRoute/deleteNumber/${id}`,{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ const BetContextProvider = ({children}) => {
         // moment(new Date()).format("MM-DD-YYYY")
         dispatch({type: UPDATE_BET, payload: formatedBet});
         try {
-            const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${formatedBet.bets_id}`,{
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/betsRoute/updateBet/${formatedBet.bets_id}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -111,7 +111,7 @@ const BetContextProvider = ({children}) => {
         try {
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets   
-            const response = await fetch(`http://localhost:5000/api/betsRoute/getAllBets`, {
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

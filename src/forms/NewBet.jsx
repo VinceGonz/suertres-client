@@ -10,6 +10,7 @@ import CustomDatePicker from "react-datepicker";
 
 // * CONTEXTS
 import { BetContext } from "../context/BetContext";
+import { useEffect } from "react";
 
 const NewBet = () => {
   // * CONTEXT IMPORTED
@@ -33,6 +34,16 @@ const NewBet = () => {
     updateIndividualBetModalVisible,
     setUpdateIndividualBetModalVisible,
   ] = useState(false);
+
+  useEffect(() => {
+    // if(localStorage.getItem('indiBets') ? setIndivBets(JSON.parse(localStorage.get("indivBets"))) : null))
+    const indivBetsData = localStorage.getItem("indivBets");
+    const cellNumData = localStorage.getItem("cellNum");
+    if (indivBetsData && cellNumData) {
+      setIndivBets(JSON.parse(indivBetsData));
+      setCellNum(JSON.parse(cellNumData));
+    }
+  }, []);
 
   // ! Limit lenght of characters in a input field
   const setLimitLength = (maxLength, value) => {
@@ -62,6 +73,23 @@ const NewBet = () => {
         msgText: "",
       });
     }, 5000);
+  };
+
+  const checkIfIndivBetAlreadyExists = (number) => {
+    let exists = false;
+    indivBets.map((eachBet) => {
+      if (eachBet.number === number) {
+        setFlashMsg({
+          msgType: "danger",
+          msgText: "Number already exists",
+        });
+        console.log("WTF POTANG INA MO");
+        console.log(eachBet.number, number);
+        exists = true;
+      }
+    });
+
+    return exists;
   };
 
   const updateIndivBets = (bet) => {
@@ -135,6 +163,7 @@ const NewBet = () => {
       addNewBet(newList);
       console.log(suertresData);
       localStorage.setItem("betList", JSON.stringify([...betList, newList]));
+      localStorage.setItem("indivBets", JSON.stringify([]));
       resetBetData();
       setFlashMsg({
         msgType: "success",
@@ -147,23 +176,43 @@ const NewBet = () => {
 
   const addNewIndivBet = (indivBet) => {
     let errors = eachBetValidator(indivBet);
-    console.log(errors);
-    let { id, amount, number } = errors;
 
-    setNewBetErrors({ ...newBetErrors, amount, number });
+    console.log(errors);
+    // let { id, amount, number } = errors;
+
+    setNewBetErrors({
+      ...newBetErrors,
+      amount: errors.amount,
+      number: errors.number,
+    });
 
     if (Object.keys(errors).length === 0) {
       // setNewBetErrors({ ...newBetErrors, amount, number });
-      setIndivBets([
-        ...indivBets,
-        { id: indivBet.id, number: indivBet.number, amount: indivBet.amount },
-      ]);
-      resetIndivBets();
-      setFlashMsg({
-        msgType: "success",
-        msgText: "Successfully added new number",
-      });
-      resetFlashMessage();
+      console.log("hoybobo", checkIfIndivBetAlreadyExists(number));
+      if (!checkIfIndivBetAlreadyExists(number)) {
+        setIndivBets([
+          ...indivBets,
+          { id: indivBet.id, number: indivBet.number, amount: indivBet.amount },
+        ]);
+        localStorage.setItem(
+          "indivBets",
+          JSON.stringify([
+            ...indivBets,
+            {
+              id: indivBet.id,
+              number: indivBet.number,
+              amount: indivBet.amount,
+            },
+          ])
+        );
+        localStorage.setItem("cellNum", JSON.stringify(cellNum));
+        resetIndivBets();
+        setFlashMsg({
+          msgType: "success",
+          msgText: "Successfully added new number",
+        });
+        resetFlashMessage();
+      }
     } else {
       setFlashMsg({
         msgType: "danger",

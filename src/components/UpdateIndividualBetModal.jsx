@@ -9,7 +9,7 @@ const UpdateIndividualBetModal = ({
   setIndivBets,
   individualBetToBeUpdated,
   setUpdateIndividualBetModalVisible,
-  updateIndivBets,
+  // updateIndivBets,
   setIndividualBetToBeUpdated,
 }) => {
   const { setFlashMsg } = useContext(BetContext);
@@ -32,7 +32,7 @@ const UpdateIndividualBetModal = ({
     });
 
     setIndivBets(updatedBets);
-    setUpdateIndividualBetModalVisible(false);
+    localStorage.setItem("indivBets", JSON.stringify(updatedBets));
   };
 
   const deleteIndivBet = (betId) => {
@@ -40,6 +40,10 @@ const UpdateIndividualBetModal = ({
       (bet) => bet.id !== betId
     );
     setIndivBets(updatedBetAfterRemovingOneBet);
+    localStorage.setItem(
+      "indivBets",
+      JSON.stringify(updatedBetAfterRemovingOneBet)
+    );
   };
 
   return (
@@ -65,6 +69,7 @@ const UpdateIndividualBetModal = ({
                 number: setLimitLength(3, e.target.value),
               })
             }
+            disabled="true"
           />
         </div>
         <div>
@@ -92,7 +97,7 @@ const UpdateIndividualBetModal = ({
               number: individualBetToBeUpdated.number,
               amount: individualBetToBeUpdated.amount,
             });
-
+            setUpdateIndividualBetModalVisible(false);
             setFlashMsg({
               type: "success",
               msgText: `Successfully Updated number ${individualBetToBeUpdated.number}`,

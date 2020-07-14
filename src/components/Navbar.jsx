@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { BetContext } from "../context/BetContext";
+import { UserContext } from "../context/UserContext";
+import { withRouter } from "react-router-dom";
 
-const Navbar = ({ currentActive }) => {
+const Navbar = ({ currentActive, history }) => {
   const { setFlashMsg } = useContext(BetContext);
+  const { logoutUser } = useContext(UserContext);
 
   return (
     <nav>
@@ -48,10 +51,21 @@ const Navbar = ({ currentActive }) => {
           </li>
         </Link>
 
-        <li>Logout</li>
+        <li
+          onClick={() => {
+            logoutUser();
+            history.push("/");
+            setFlashMsg({
+              msgType: "success",
+              msgText: "Successfully Logged out!",
+            });
+          }}
+        >
+          Logout
+        </li>
       </ul>
     </nav>
   );
 };
 
-export default Navbar;
+export default withRouter(Navbar);
