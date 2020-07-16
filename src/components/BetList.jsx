@@ -30,7 +30,6 @@ const BetList = () => {
   }, []);
 
   let filteredBetList = [];
-  console.log("POTANG INA MO BOI", betList);
 
   betList.forEach((eachBetz) => {
     if (
@@ -39,23 +38,9 @@ const BetList = () => {
       eachBetz.draw === selectedDrawTime
     ) {
       filteredBetList = [...filteredBetList, eachBetz];
-    } else {
-      console.log("DIDNT MATCH");
-      console.log(
-        moment(eachBetz.date).format("MM-DD-YYYY").toString(),
-        console.log(eachBetz.time, selectedDrawTime)
-      );
-      if (
-        moment(eachBetz.date).format("MM-DD-YYYY").toString() ===
-        moment(selectedDate).format("MM-DD-YYYY").toString()
-      ) {
-        console.log("TRUE POTA");
-      }
     }
   });
 
-  console.log("FILTERED LIST", filteredBetList);
-  console.log(moment(selectedDate).format("MM-DD-YYYY"));
   return (
     <Layout headerText={"Bet List"} currentActive={"Bet"}>
       <CustomDatePicker

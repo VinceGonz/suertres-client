@@ -16,7 +16,6 @@ const LoginForm = ({ history }) => {
   const { flashMsg, setFlashMsg } = useContext(BetContext);
 
   const onSubmit = async () => {
-    console.log({ username, password });
     loginUser({ username, password });
 
     if ((await loginUser({ username, password })) === undefined) {

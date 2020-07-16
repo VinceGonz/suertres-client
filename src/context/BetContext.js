@@ -5,14 +5,9 @@ import moment from "moment";
 // ! Reducers
 import betReducer from '../reducers/betReducer'
 
-
 import {types} from '../types'
 
-
-
-
 export const BetContext = createContext({});
-
 
 const BetContextProvider = ({children}) => {
     const initialState = {
@@ -37,15 +32,12 @@ const BetContextProvider = ({children}) => {
 
     // const [state,dispatch] = useReducer(betReducer, initialState);
 
-    // const [state,dispatch] = useReducer(betReducer, initialState);
-
     const {betList, suertresData, flashMsg, selectedDrawTime, selectedDate, winningInfo} = state;
 
 
     useEffect(() => {
         localStorage.setItem('betList', JSON.stringify(betList))
     },[betList])
-
 
 
     const addNewBet = async (newBetData) => {
@@ -60,9 +52,7 @@ const BetContextProvider = ({children}) => {
             },
             body: JSON.stringify(newBetData),
             });
-        // const result = await response.json();
         const result = await response.json();
-        console.log(result)
         }catch(err){
             console.log(err)
         }
@@ -78,17 +68,13 @@ const BetContextProvider = ({children}) => {
                 }
             });
             const result = await response.json();
-            console.log('test',result);
         } catch (error) {
             console.log(error)
         }
     }
 
     const updateBetData = async (bet) => {
-        console.log('MOTHA',bet)
         let formatedBet = {...bet, date: moment(bet.date).format("MM-DD-YYYY")}
-        // moment(selectedDate).format("MM-DD-YYYY")
-        // moment(new Date()).format("MM-DD-YYYY")
         dispatch({type: UPDATE_BET, payload: formatedBet});
         try {
             const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${formatedBet.bets_id}`,{
@@ -99,7 +85,6 @@ const BetContextProvider = ({children}) => {
                 body: JSON.stringify(formatedBet)
             });
             const result = await response.json();
-            console.log('test',result);
         } catch (error) {
             console.log(error)
         }
@@ -107,7 +92,6 @@ const BetContextProvider = ({children}) => {
 
     const getAllBets = async () => {
         dispatch({type: SET_BET_LIST, payload: JSON.parse(localStorage.getItem('betList')) || []})
-        console.log('DISPATCHED')
         try {
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets   
@@ -118,7 +102,6 @@ const BetContextProvider = ({children}) => {
                 }
             })
             const result = await response.json();
-            console.log('BET LISTZZ FROM DB', result.Bets)
             dispatch({type: SET_BET_LIST, payload: result.Bets})
             localStorage.setItem(
                 "betList",
@@ -128,8 +111,6 @@ const BetContextProvider = ({children}) => {
             console.log(error)
         }
     }
-
-    // const deleteIndividualBet = (bet)
 
     const setIsLoading = (bool) => {
         dispatch({type: SET_IS_LOADING, payload: bool})

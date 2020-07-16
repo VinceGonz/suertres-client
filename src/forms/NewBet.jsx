@@ -83,8 +83,6 @@ const NewBet = () => {
           msgType: "danger",
           msgText: "Number already exists",
         });
-        console.log("WTF POTANG INA MO");
-        console.log(eachBet.number, number);
         exists = true;
       }
     });
@@ -125,7 +123,6 @@ const NewBet = () => {
 
   // ! Use to validate each bet inputted
   const eachBetValidator = ({ number, amount }) => {
-    console.log(number, amount);
     let errors = {};
     if (number === null || number < 0 || number.length < 3 || number === "") {
       errors.number = "Invalid number";
@@ -159,11 +156,10 @@ const NewBet = () => {
           amount: bet.amount,
         };
       });
-      console.log("baby", newList);
       addNewBet(newList);
-      console.log(suertresData);
       localStorage.setItem("betList", JSON.stringify([...betList, newList]));
       localStorage.setItem("indivBets", JSON.stringify([]));
+      localStorage.setItem("cellNum", "");
       resetBetData();
       setFlashMsg({
         msgType: "success",
@@ -178,7 +174,6 @@ const NewBet = () => {
     let errors = eachBetValidator(indivBet);
 
     console.log(errors);
-    // let { id, amount, number } = errors;
 
     setNewBetErrors({
       ...newBetErrors,
@@ -188,7 +183,6 @@ const NewBet = () => {
 
     if (Object.keys(errors).length === 0) {
       // setNewBetErrors({ ...newBetErrors, amount, number });
-      console.log("hoybobo", checkIfIndivBetAlreadyExists(number));
       if (!checkIfIndivBetAlreadyExists(number)) {
         setIndivBets([
           ...indivBets,

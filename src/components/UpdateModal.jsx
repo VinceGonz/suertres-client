@@ -95,7 +95,6 @@ const UpdateModal = ({
         <button
           className="confirmUpdateBtn"
           onClick={() => {
-            console.log(betToBeUpdated);
             updateBetData(betToBeUpdated);
             setUpdateModalVisible(false);
             setFlashMsg({

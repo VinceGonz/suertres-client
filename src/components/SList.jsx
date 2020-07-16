@@ -58,7 +58,6 @@ const SList = () => {
       }
     });
 
-    console.log(STList);
     return STList;
   };
 
@@ -67,7 +66,6 @@ const SList = () => {
   filteredNewBetList.forEach((bet) => {
     arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(bet.amount)];
   });
-
 
   const totalAmount =
     arrayOfBetsAmount.length !== 0

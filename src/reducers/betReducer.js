@@ -38,7 +38,6 @@ const betReducer = (state, {type, payload}) => {
             break;
         
         case SET_SELECTED_DRAW_TIME:
-            console.log('test',payload)
             return {
                 ...state,
                 selectedDrawTime: payload

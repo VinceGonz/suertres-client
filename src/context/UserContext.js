@@ -35,7 +35,6 @@ const UserContextProvider = ({children}) => {
             })
 
             const result = await response.json();
-            console.log(result)
             const {Message, User, token} = result;
             if(token){
                 dispatch({type: AUTHENTICATE_USER, payload: {User, token}})

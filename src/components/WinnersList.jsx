@@ -27,8 +27,6 @@ const WinnersList = () => {
     //eslint-disable-next-line
   }, []);
 
-  console.log("GAGU BETLIST", betList);
-
   const setLimitLength = (maxLength, value) => {
     if (value.length > maxLength) {
       value = value.substring(0, 3);
@@ -39,8 +37,6 @@ const WinnersList = () => {
   const getTotalAmountPayable = (winnersList) => {
     let amountsArray = winnersList.map((winner) => parseInt(winner.amount));
 
-    console.log(amountsArray);
-
     let totalAmount =
       amountsArray.length !== 0
         ? amountsArray.reduce((acc, currVal) => acc + currVal)
@@ -48,45 +44,6 @@ const WinnersList = () => {
 
     return totalAmount;
   };
-
-  // let newBetList =
-  //   betList.length !== 0
-  //     ? betList.map((bet) => {
-  //         return bet.bets.map((eachBet) => {
-  //           return {
-  //             cellNumber: bet.cellNum,
-  //             draw: bet.draw,
-  //             date: bet.date,
-  //             number: eachBet.number,
-  //             amount: eachBet.amount,
-  //           };
-  //         });
-  //       })
-  //     : [];
-
-  // newBetList.forEach((newBetz) => {
-  //   return newBetz.forEach((eachBetz) => {
-  //     if (
-  //       moment(eachBetz.date).format("MM-DD-YYYY").toString() ===
-  //         moment(selectedDate).format("MM-DD-YYYY").toString() &&
-  //       eachBetz.draw === selectedDrawTime &&
-  //       eachBetz.number === winNum
-  //     ) {
-  //       filteredBetList = [...filteredBetList, eachBetz];
-  //     } else {
-  //       console.log("DIDNT MATCH");
-  //       console.log(moment(eachBetz.date).format("MM-DD-YYYY").toString());
-  //       console.log(eachBetz.draw, selectedDrawTime);
-  //       console.log(eachBetz.number, winNum);
-  //       if (
-  //         moment(eachBetz.date).format("MM-DD-YYYY").toString() ===
-  //         moment(selectedDate).format("MM-DD-YYYY").toString()
-  //       ) {
-  //         console.log("TRUE POTA");
-  //       }
-  //     }
-  //   });
-  // });
 
   betList.forEach((eachBetz) => {
     if (
@@ -96,17 +53,6 @@ const WinnersList = () => {
       eachBetz.number === winNum
     ) {
       filteredBetList = [...filteredBetList, eachBetz];
-    } else {
-      console.log("DIDNT MATCH");
-      console.log(moment(eachBetz.date).format("MM-DD-YYYY").toString());
-      console.log(eachBetz.draw, selectedDrawTime);
-      console.log(eachBetz.number, winNum);
-      if (
-        moment(eachBetz.date).format("MM-DD-YYYY").toString() ===
-        moment(selectedDate).format("MM-DD-YYYY").toString()
-      ) {
-        console.log("TRUE POTA");
-      }
     }
   });
 
