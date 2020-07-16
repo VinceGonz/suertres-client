@@ -37,26 +37,6 @@ const SList = () => {
     let numbersList = [];
     let STList = [];
 
-    // let newBetList = betsArray.map((val) =>
-    //   val.bets.map((bet) => {
-    //     return {
-    //       cellNum: val.cellNum,
-    //       draw: val.draw,
-    //       date: val.date,
-    //       number: bet.number,
-    //       amount: bet.amount,
-    //     };
-    //   })
-    // );
-
-    // let bets = betsArray.map((bet) => bet.map((eachBet) => eachBet));
-
-    // betsArray.map((e) => {
-    //   e.forEach((val) => {
-    //     numbersList = [...numbersList, val];
-    //   });
-    // });
-
     betsArray.map((e) => {
       numbersList = [...numbersList, e];
     });
@@ -65,10 +45,8 @@ const SList = () => {
     numbersList.forEach((numBet) => {
       // ! Check if bet number already exists
       if (STList.some((bet) => bet.number === numBet.number)) {
-        // console.log('exists!', numBet.number);
         // ! If number already exists, get the index of that element in the array of Numbers
         let indx = STList.findIndex((x) => x.number === numBet.number);
-        // console.log('index', indx);
         // ! Update the amount of the number by adding the amounts
         STList[indx] = {
           ...STList[indx],
@@ -77,7 +55,6 @@ const SList = () => {
       } else {
         // !If it doesn't exist in the array of numberList, add it as new element
         STList = [...STList, numBet];
-        // console.log('STList', STList)
       }
     });
 
@@ -87,24 +64,15 @@ const SList = () => {
 
   let arrayOfBetsAmount = [];
 
-  // filteredNewBetList.forEach((bet) => {
-  //   bet.bets.forEach((perBet) => {
-  //     arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(perBet.amount)];
-  //   });
-  // });
-
   filteredNewBetList.forEach((bet) => {
     arrayOfBetsAmount = [...arrayOfBetsAmount, parseInt(bet.amount)];
   });
 
-  console.log("bobo", arrayOfBetsAmount);
 
   const totalAmount =
     arrayOfBetsAmount.length !== 0
       ? arrayOfBetsAmount.reduce((accu, currVal) => accu + currVal)
       : 0;
-
-  console.log("length", totalAmount.length);
 
   return (
     <Layout headerText={"STL List"} currentActive={"STL"}>

@@ -22,8 +22,6 @@ const UpdateIndividualBetModal = ({
   };
 
   const updateIndivBet = (updatedBet) => {
-    console.log("UPDATED BET", updatedBet);
-    console.log("LENGHT OF INDIVBETS", indivBets);
     let updatedBets = indivBets.map((bet) => {
       if (bet.id === updatedBet.id) {
         bet = { ...bet, number: updatedBet.number, amount: updatedBet.amount };

@@ -23,28 +23,11 @@ const BetList = () => {
   } = useContext(BetContext);
   //
 
-  // console.log(newBetList);
-
   useEffect(() => {
     getAllBets();
 
     //eslint-disable-next-line
   }, []);
-
-  // let newBetList =
-  //   betList.length !== 0
-  // ? betList.map((bet) => {
-  //         return bet.bets.map((eachBet) => {
-  //           return {
-  //             cellNumber: bet.cellNum,
-  //             draw: bet.draw,
-  //             date: bet.date,
-  //             number: eachBet.number,
-  //             amount: eachBet.amount,
-  //           };
-  //         });
-  //       })
-  //     : [];
 
   let filteredBetList = [];
   console.log("POTANG INA MO BOI", betList);
@@ -126,8 +109,8 @@ const BetList = () => {
                       onClick={() => {
                         setDeleteModalVisible(true);
                         setBetToBeDeleted({
-                          id: betz.bets_id,
-                          number: betz.number,
+                          id: bets_id,
+                          number: number,
                         });
                       }}
                     >

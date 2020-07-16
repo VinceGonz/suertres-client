@@ -76,7 +76,6 @@ const UpdateModal = ({
             onChange={(e) =>
               setBetToBeUpdated({ ...betToBeUpdated, draw: e.target.value })
             }
-            // onChange={(e) => setSelectedDrawTime(e.target.value)}
           >
             <option value="11" selected="selected">
               11AM

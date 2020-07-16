@@ -71,7 +71,7 @@ const betReducer = (state, {type, payload}) => {
                 ...state, 
                 betList: state.betList.map(bet => {
                     if(bet.bets_id === payload.bets_id){
-                        bet = {cell_num: payload.cell_num, date: payload.date, draw: payload.draw, number: payload.number, amount: payload.amount}
+                        bet = {...bet, cell_num: payload.cell_num, date: payload.date, draw: payload.draw, number: payload.number, amount: payload.amount}
                     }
                     return bet
                 })
