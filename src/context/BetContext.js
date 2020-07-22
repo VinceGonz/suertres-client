@@ -45,7 +45,7 @@ const BetContextProvider = ({children}) => {
         try{
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/addBet
-            const response = await fetch('http://localhost:5000/api/bets/addBet', {
+            const response = await fetch('https://suertres-api-v2.herokuapp.com/api/bets/addBet', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const BetContextProvider = ({children}) => {
     const deleteBetNumber = async (id) => {
         dispatch({type: DELETE_BET_NUMBER, payload: id});
         try {
-            const response = await fetch(`http://localhost:5000/api/bets/deleteNumber/${id}`,{
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/bets/deleteNumber/${id}`,{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ const BetContextProvider = ({children}) => {
         let formatedBet = {...bet, date: moment(bet.date).format("MM-DD-YYYY")}
         dispatch({type: UPDATE_BET, payload: formatedBet});
         try {
-            const response = await fetch(`http://localhost:5000/api/bets/updateBet/${formatedBet.bets_id}`,{
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/bets/updateBet/${formatedBet.bets_id}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ const BetContextProvider = ({children}) => {
         try {
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets   
-            const response = await fetch(`http://localhost:5000/api/bets/getAllBets`, {
+            const response = await fetch(`https://suertres-api-v2.herokuapp.com/api/bets/getAllBets`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
