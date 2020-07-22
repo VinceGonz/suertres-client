@@ -63,7 +63,6 @@ const NewBet = () => {
   const resetIndivBets = () => {
     setNumber("");
     setAmount("");
-    // setIndivBets([{}]);
   };
 
   const resetFlashMessage = () => {

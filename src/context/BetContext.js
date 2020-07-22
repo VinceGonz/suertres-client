@@ -45,7 +45,7 @@ const BetContextProvider = ({children}) => {
         try{
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/addBet
-            const response = await fetch('http://localhost:5000/api/betsRoute/addBet', {
+            const response = await fetch('http://localhost:5000/api/bets/addBet', {
             method: 'POST', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const BetContextProvider = ({children}) => {
     const deleteBetNumber = async (id) => {
         dispatch({type: DELETE_BET_NUMBER, payload: id});
         try {
-            const response = await fetch(`http://localhost:5000/api/betsRoute/deleteNumber/${id}`,{
+            const response = await fetch(`http://localhost:5000/api/bets/deleteNumber/${id}`,{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ const BetContextProvider = ({children}) => {
         let formatedBet = {...bet, date: moment(bet.date).format("MM-DD-YYYY")}
         dispatch({type: UPDATE_BET, payload: formatedBet});
         try {
-            const response = await fetch(`http://localhost:5000/api/betsRoute/updateBet/${formatedBet.bets_id}`,{
+            const response = await fetch(`http://localhost:5000/api/bets/updateBet/${formatedBet.bets_id}`,{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -95,17 +95,17 @@ const BetContextProvider = ({children}) => {
         try {
             // ! for production endpoint
             // https://suertres-api-v2.herokuapp.com/api/betsRoute/getAllBets   
-            const response = await fetch(`http://localhost:5000/api/betsRoute/getAllBets`, {
+            const response = await fetch(`http://localhost:5000/api/bets/getAllBets`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
             })
             const result = await response.json();
-            dispatch({type: SET_BET_LIST, payload: result.Bets})
+            dispatch({type: SET_BET_LIST, payload: result.bets})
             localStorage.setItem(
                 "betList",
-                JSON.stringify(result.Bets)
+                JSON.stringify(result.bets)
               );
         } catch (error) {
             console.log(error)
